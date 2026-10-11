@@ -110,7 +110,7 @@ Preferences are stored in plain Markdown inside this repository, so they are ver
 
 Each save is announced in one line. Reply *"forget that"* to undo it. Profile changes are committed locally and never pushed automatically; push when you choose.
 
-> **Privacy:** your profile accumulates personal working preferences and may reference your projects. Keep this repository private.
+> **Privacy:** your profile accumulates personal working preferences and may reference your projects. If you fork or clone this repository and push to a public remote, your `profile/` directory is published too. To keep it local, add `profile/` to `.git/info/exclude` (or `.gitignore`) before your first learned preference is committed. Alternatively, keep your copy in a private fork.
 
 ## Repository layout
 
