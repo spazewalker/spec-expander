@@ -37,7 +37,13 @@ Flavors (read the matching reference file):
 
 A request can mix flavors (e.g., "agent backend that scales" = ai-agents + system-design). Read each relevant file; don't read the others.
 
-Scale the output to the task. A one-hour task gets a compact spec (~10–20 lines, 0–2 questions). A multi-day system gets the full treatment. Over-specifying a small task is its own failure — it wastes the user's attention and can push the implementation toward needless complexity.
+Scale the output to the task. Over-specifying is its own failure: it wastes the user's attention, buries the questions that matter, and can push the implementation toward needless complexity. Rough budgets for what you show in chat:
+
+- **Small** (hours): ~10–20 lines. Goal, a few numbered requirements with checks, 0–2 questions. Skip the tables.
+- **Medium** (a day or two): ~40–70 lines. All sections, but one line per item.
+- **Large** (multi-day system): full spec. Show a summary in chat, and put the complete version in a file if the user accepts the offer in Step 4.
+
+Write tersely: one line per requirement, assumption, and check. The user should be able to review the whole spec in a minute or two.
 
 ## Step 3 — Draft the expanded spec
 
@@ -85,6 +91,8 @@ Why the numbers and checks matter: words like "efficient" or "good" can't be ver
 
 Choosing defaults: prefer, in order, the project override, the profile, then the flavor file's patterns, then your judgment. Pick numbers that fit the actual context — a hobby script doesn't need p99 targets; an internal batch job doesn't need 10k rps. If a default would add real complexity (caching layers, distributed infra, custom allocators), make it a question instead of assuming it.
 
+Be exact about permissions and access. When the work touches accounts, data, or external systems, list the precise scopes or rights each component needs (e.g. `gmail.readonly` for fetching, `gmail.send` for delivery) and keep every section consistent with that list. Don't call something "read-only" if any part of the default design writes or sends. Users decide whether to trust the result based on this, so an overstatement here is worse than a gap.
+
 Choosing questions: ask only where (a) the answer changes the design substantially and (b) neither the profile, the project, nor a safe default resolves it. Good questions are concrete and come with a proposed answer: "Read-heavy or write-heavy? (I'll assume ~95% reads.)" Avoid questionnaires — if you have more than three, the rest become labeled assumptions.
 
 ## Step 4 — Confirm with the user
@@ -103,5 +111,7 @@ The user wants this skill to keep learning their techniques, and has chosen **au
 
 Read `references/learning.md` and follow it. In short: capture durable preferences revealed by their answers, edits, and corrections (during the spec or later in the task) into `profile/profile.md`, log each change with evidence in `profile/learnings.md`, and put project-specific facts in the project override instead of the global profile.
 
-End your response with a line like:
+Only when you actually saved something, end your response with one line like:
 > Learned: prefers Go for latency-critical services; default p99 target 50 ms (saved to profile → software-dev).
+
+If nothing was learned, say nothing about the profile. Explaining why nothing was saved is noise the user didn't ask for.
